@@ -32,7 +32,7 @@ class FizzBuzzCommandTest extends KernelTestCase
         ));
 
         $output = $commandTester->getDisplay();
-        $this->assertContains('1 2 lucky 4 buzz fizz 7 8 fizz buzz 11 fizz lucky 14 fizzbuzz 16 17 fizz 19 buzz', $output);
+        $this->assertContains("1 2 lucky 4 buzz fizz 7 8 fizz buzz 11 fizz lucky 14 fizzbuzz 16 17 fizz 19 buzz\nfizz: 4\nbuzz: 3\nfizzbuzz: 1\nlucky: 2\ninteger: 10", $output);
 
     }
 

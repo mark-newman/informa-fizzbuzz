@@ -97,11 +97,11 @@ class FizzBuzzServiceTest extends TestCase
     public function provideGetFizzBuzzStringTestCases()
     {
         return [
-            'negative_numbers' => [ -3, 2, 'lucky -2 -1 0 1 2'],
-            'just_numbers' => [ 1, 2, '1 2'],
-            'one_lucky' => [ 1, 3, '1 2 lucky'],
-            'lucky_and_buzz' => [ 1, 5, '1 2 lucky 4 buzz'],
-            'test_of_all_replacements' => [ 1, 20, '1 2 lucky 4 buzz fizz 7 8 fizz buzz 11 fizz lucky 14 fizzbuzz 16 17 fizz 19 buzz'],
+            'negative_numbers' => [ -3, 2, "lucky -2 -1 0 1 2\nfizz: 0\nbuzz: 0\nfizzbuzz: 0\nlucky: 1\ninteger: 5"],
+            'just_numbers' => [ 1, 2, "1 2\nfizz: 0\nbuzz: 0\nfizzbuzz: 0\nlucky: 0\ninteger: 2"],
+            'one_lucky' => [ 1, 3, "1 2 lucky\nfizz: 0\nbuzz: 0\nfizzbuzz: 0\nlucky: 1\ninteger: 2"],
+            'lucky_and_buzz' => [ 1, 5, "1 2 lucky 4 buzz\nfizz: 0\nbuzz: 1\nfizzbuzz: 0\nlucky: 1\ninteger: 3"],
+            'test_of_all_replacements' => [ 1, 20, "1 2 lucky 4 buzz fizz 7 8 fizz buzz 11 fizz lucky 14 fizzbuzz 16 17 fizz 19 buzz\nfizz: 4\nbuzz: 3\nfizzbuzz: 1\nlucky: 2\ninteger: 10"],
         ];
     }
 
