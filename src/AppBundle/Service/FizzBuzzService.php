@@ -14,7 +14,7 @@ class FizzBuzzService
      * @param $rangeEnd
      * @param $triggers
      *
-     * @return string
+     * @return array
      */
     public function getFizzBuzzDataArray($rangeStart, $rangeEnd, array $triggers)
     {
@@ -42,10 +42,39 @@ class FizzBuzzService
             }else{
                 throw new InvalidArgumentException('Range end must be greater than range start');
             }
-            
+
         }else{
             throw new InvalidArgumentException('Range values must be integers');
         }
+    }
+
+    /**
+     * Use the getFizzBuzzDataArray method and build into a string response instead of array
+     *
+     * @param $rangeStart
+     * @param $rangeEnd
+     * @param array $triggers
+     * @return string
+     */
+    public function getFizzBuzzString($rangeStart, $rangeEnd, array $triggers)
+    {
+        $fizzbuzzDataArray = $this->getFizzBuzzDataArray($rangeStart, $rangeEnd, $triggers);
+
+        $returnString = '';
+
+        // get last array element to check when adding spacing in loop
+        $arrayKeys = array_keys($fizzbuzzDataArray);
+        $lastArrayKey = array_pop($arrayKeys);
+
+        foreach ($fizzbuzzDataArray as $key => $listElement){
+            $returnString .= $listElement;
+            if($lastArrayKey !== $key){
+                $returnString .= ' ';
+            }
+        }
+
+        return $returnString;
+
     }
 
 }
