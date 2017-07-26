@@ -19,6 +19,12 @@ class FizzBuzzServiceTest extends TestCase
 
         $this->defaultTriggers = [
             [
+                'replacement' => 'lucky',
+                'function' => function($i){
+                    return (preg_match('/3/', (string) $i));
+                }
+            ],
+            [
                 'replacement' => 'fizzbuzz',
                 'function' => function($i){
                     return ($i % 15 == 0 && $i != 0);
@@ -91,11 +97,11 @@ class FizzBuzzServiceTest extends TestCase
     public function provideGetFizzBuzzStringTestCases()
     {
         return [
-            'negative_numbers' => [ -3, 2, 'fizz -2 -1 0 1 2'],
-            [ 1, 2, '1 2'],
-            [ 1, 3, '1 2 fizz'],
-            [ 1, 5, '1 2 fizz 4 buzz'],
-            [ 1, 20, '1 2 fizz 4 buzz fizz 7 8 fizz buzz 11 fizz 13 14 fizzbuzz 16 17 fizz 19 buzz'],
+            'negative_numbers' => [ -3, 2, 'lucky -2 -1 0 1 2'],
+            'just_numbers' => [ 1, 2, '1 2'],
+            'one_lucky' => [ 1, 3, '1 2 lucky'],
+            'lucky_and_buzz' => [ 1, 5, '1 2 lucky 4 buzz'],
+            'test_of_all_replacements' => [ 1, 20, '1 2 lucky 4 buzz fizz 7 8 fizz buzz 11 fizz lucky 14 fizzbuzz 16 17 fizz 19 buzz'],
         ];
     }
 
@@ -107,11 +113,11 @@ class FizzBuzzServiceTest extends TestCase
     public function provideGetFizzBuzzDataArrayTestCases()
     {
         return [
-            'negative_numbers' => [ -3, 2, ['fizz', -2, -1, 0, 1, 2]],
+            'negative_numbers' => [ -3, 2, ['lucky', -2, -1, 0, 1, 2]],
             'just_numbers' => [ 1, 2, [1, 2]],
-            'one_fizz' => [ 1, 3, [1, 2, 'fizz']],
-            'fizz_and_buzz' => [ 1, 5, [1, 2, 'fizz', 4, 'buzz']],
-            'test_of_all_replacements' => [ 1, 20, [1, 2, 'fizz', 4, 'buzz', 'fizz', 7, 8, 'fizz', 'buzz', 11, 'fizz', 13, 14, 'fizzbuzz', 16, 17, 'fizz', 19, 'buzz']],
+            'one_lucky' => [ 1, 3, [1, 2, 'lucky']],
+            'lucky_and_buzz' => [ 1, 5, [1, 2, 'lucky', 4, 'buzz']],
+            'test_of_all_replacements' => [ 1, 20, [1, 2, 'lucky', 4, 'buzz', 'fizz', 7, 8, 'fizz', 'buzz', 11, 'fizz', 'lucky', 14, 'fizzbuzz', 16, 17, 'fizz', 19, 'buzz']],
         ];
     }
     
