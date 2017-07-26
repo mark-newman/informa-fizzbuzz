@@ -8,6 +8,13 @@ class FizzBuzzService
 {
 
     private $defaultTriggers;
+    private static $reportOrder = [
+        'fizz' => 1,
+        'buzz' => 2,
+        'fizzbuzz' => 3,
+        'lucky' => 4,
+        'integer' => 5
+    ];
 
     public function __construct()
     {
@@ -59,13 +66,12 @@ class FizzBuzzService
         if(is_int($rangeStart) && is_int($rangeEnd)){
             if($rangeEnd > $rangeStart){
 
-                $returnArray = ['data' => [], 'counts' => []];
+                $returnArray = ['data' => [], 'counts' => ['integer' => 0]];
 
                 // build counts array keys
                 foreach ($triggers as $trigger){
                     $returnArray['counts'][$trigger['replacement']] = 0;
                 }
-                $returnArray['counts']['integer'] = 0;
 
                 for ($i = $rangeStart; $i <= $rangeEnd; $i++) {
 
@@ -117,6 +123,16 @@ class FizzBuzzService
             if($lastArrayKey !== $key){
                 $returnString .= ' ';
             }
+        }
+
+        // sort counts value for report based on default report order
+        uksort($fizzbuzzDataArray['counts'], function($a, $b){
+            return (self::$reportOrder[$a] < self::$reportOrder[$b]) ? -1 : 1;
+        });
+
+        // loop through counts for report
+        foreach ($fizzbuzzDataArray['counts'] as $label => $count){
+            $returnString .= "\n" . $label . ': ' . $count;
         }
 
         return $returnString;
