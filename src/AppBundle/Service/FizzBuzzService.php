@@ -7,6 +7,12 @@ use Symfony\Component\OptionsResolver\Exception\InvalidArgumentException;
 class FizzBuzzService
 {
 
+    private static $defaultTriggers = [
+        ['replacement' => 'fizzbuzz', 'modValue' => 15],
+        ['replacement' => 'fizz', 'modValue' => 3],
+        ['replacement' => 'buzz', 'modValue' => 5],
+    ];
+
     /**
      * Get an array of the FizzBuzz data
      *
@@ -16,8 +22,14 @@ class FizzBuzzService
      *
      * @return array
      */
-    public function getFizzBuzzDataArray($rangeStart, $rangeEnd, array $triggers)
+    public function getFizzBuzzDataArray($rangeStart, $rangeEnd, array $triggers = null)
     {
+        // set defaults for triggers if none are passed
+        if(is_null($triggers)){
+            $triggers = self::$defaultTriggers;
+        }
+
+        // check arguments are valid
         if(is_int($rangeStart) && is_int($rangeEnd)){
             if($rangeEnd > $rangeStart){
 
@@ -56,7 +68,7 @@ class FizzBuzzService
      * @param array $triggers
      * @return string
      */
-    public function getFizzBuzzString($rangeStart, $rangeEnd, array $triggers)
+    public function getFizzBuzzString($rangeStart, $rangeEnd, array $triggers = null)
     {
         $fizzbuzzDataArray = $this->getFizzBuzzDataArray($rangeStart, $rangeEnd, $triggers);
 
