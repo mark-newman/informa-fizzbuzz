@@ -12,9 +12,11 @@ class FizzBuzzService
      *
      * @param $rangeStart
      * @param $rangeEnd
+     * @param $triggers
+     *
      * @return string
      */
-    public function getFizzBuzzDataArray($rangeStart, $rangeEnd)
+    public function getFizzBuzzDataArray($rangeStart, $rangeEnd, array $triggers)
     {
         if(is_int($rangeStart) && is_int($rangeEnd)){
             if($rangeEnd > $rangeStart){
@@ -23,22 +25,15 @@ class FizzBuzzService
 
                 for ($i = $rangeStart; $i <= $rangeEnd; $i++) {
 
-                    // we're allowing all integers in the range, including and negative integers and 0 so we must handle 0
-                    if ($i % 3 == 0 && $i % 5 == 0 && $i != 0) {
-
-                        $returnArray[] = 'fizzbuzz';
-
-                    } elseif ($i % 3 == 0 && $i != 0) {
-
-                        $returnArray[] = 'fizz';
-
-                    } elseif ($i % 5 == 0 && $i != 0) {
-
-                        $returnArray[] = 'buzz';
-
-                    } else {
-                        $returnArray[] = $i;
+                    foreach ($triggers as $trigger){
+                        if($i % $trigger['modValue'] == 0 && $i != 0){
+                            $returnArray[] = $trigger['replacement'];
+                            continue 2;
+                        }
                     }
+
+                    // if the loop hasn't continued there have been no trigger matches so def
+                    $returnArray[] = $i;
 
                 }
 
@@ -47,6 +42,7 @@ class FizzBuzzService
             }else{
                 throw new InvalidArgumentException('Range end must be greater than range start');
             }
+            
         }else{
             throw new InvalidArgumentException('Range values must be integers');
         }
