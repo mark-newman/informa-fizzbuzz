@@ -27,7 +27,7 @@ class FizzBuzzCommand extends ContainerAwareCommand
     {
         $helper = $this->getHelper('question');
         $questionValidator = function ($answer) {
-            if (!ctype_digit($answer)) {
+            if (!ctype_digit(ltrim($answer, '-'))) {
                 throw new \RuntimeException(
                     'The range value must be an integer'
                 );
