@@ -13,6 +13,12 @@ class FizzBuzzService
     {
         $this->defaultTriggers = [
             [
+                'replacement' => 'lucky',
+                'function' => function($i){
+                    return (preg_match('/3/', (string) $i));
+                }
+            ],
+            [
                 'replacement' => 'fizzbuzz',
                 'function' => function($i){
                     return ($i % 15 == 0 && $i != 0);
