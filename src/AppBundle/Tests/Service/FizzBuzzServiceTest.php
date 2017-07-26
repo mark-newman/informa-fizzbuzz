@@ -113,11 +113,11 @@ class FizzBuzzServiceTest extends TestCase
     public function provideGetFizzBuzzDataArrayTestCases()
     {
         return [
-            'negative_numbers' => [ -3, 2, ['lucky', -2, -1, 0, 1, 2]],
-            'just_numbers' => [ 1, 2, [1, 2]],
-            'one_lucky' => [ 1, 3, [1, 2, 'lucky']],
-            'lucky_and_buzz' => [ 1, 5, [1, 2, 'lucky', 4, 'buzz']],
-            'test_of_all_replacements' => [ 1, 20, [1, 2, 'lucky', 4, 'buzz', 'fizz', 7, 8, 'fizz', 'buzz', 11, 'fizz', 'lucky', 14, 'fizzbuzz', 16, 17, 'fizz', 19, 'buzz']],
+            'negative_numbers' => [ -3, 2, ['data' => ['lucky', -2, -1, 0, 1, 2], 'counts' => ['fizz' => 0, 'buzz' => 0, 'fizzbuzz' => 0, 'lucky' => 1, 'integer' => 5]]],
+            'just_numbers' => [ 1, 2, ['data' => [1, 2], 'counts' => ['fizz' => 0, 'buzz' => 0, 'fizzbuzz' => 0, 'lucky' => 0, 'integer' => 2]]],
+            'one_lucky' => [ 1, 3, ['data' => [1, 2, 'lucky'], 'counts' => ['fizz' => 0, 'buzz' => 0, 'fizzbuzz' => 0, 'lucky' => 1, 'integer' => 2]]],
+            'lucky_and_buzz' => [ 1, 5, ['data' => [1, 2, 'lucky', 4, 'buzz'], 'counts' => ['fizz' => 0, 'buzz' => 1, 'fizzbuzz' => 0, 'lucky' => 1, 'integer' => 3]]],
+            'test_of_all_replacements' => [ 1, 20, ['data' => [1, 2, 'lucky', 4, 'buzz', 'fizz', 7, 8, 'fizz', 'buzz', 11, 'fizz', 'lucky', 14, 'fizzbuzz', 16, 17, 'fizz', 19, 'buzz'], 'counts' => ['fizz' => 4, 'buzz' => 3, 'fizzbuzz' => 1, 'lucky' => 2, 'integer' => 10]]],
         ];
     }
     

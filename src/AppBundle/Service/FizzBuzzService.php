@@ -59,22 +59,30 @@ class FizzBuzzService
         if(is_int($rangeStart) && is_int($rangeEnd)){
             if($rangeEnd > $rangeStart){
 
-                $returnArray = [];
+                $returnArray = ['data' => [], 'counts' => []];
+
+                // build counts array keys
+                foreach ($triggers as $trigger){
+                    $returnArray['counts'][$trigger['replacement']] = 0;
+                }
+                $returnArray['counts']['integer'] = 0;
 
                 for ($i = $rangeStart; $i <= $rangeEnd; $i++) {
 
                     foreach ($triggers as $trigger){
                         if($trigger['function']($i)){
-                            $returnArray[] = $trigger['replacement'];
+                            $returnArray['data'][] = $trigger['replacement'];
+                            // count the number of each replacement
+                            $returnArray['counts'][$trigger['replacement']] ++;
                             continue 2;
                         }
                     }
 
-                    // if the loop hasn't continued there have been no trigger matches so def
-                    $returnArray[] = $i;
+                    // if the loop hasn't continued there have been no trigger matches so default to integer
+                    $returnArray['data'][] = $i;
+                    $returnArray['counts']['integer'] ++;
 
                 }
-
                 return $returnArray;
 
             }else{
@@ -101,10 +109,10 @@ class FizzBuzzService
         $returnString = '';
 
         // get last array element to check when adding spacing in loop
-        $arrayKeys = array_keys($fizzbuzzDataArray);
+        $arrayKeys = array_keys($fizzbuzzDataArray['data']);
         $lastArrayKey = array_pop($arrayKeys);
 
-        foreach ($fizzbuzzDataArray as $key => $listElement){
+        foreach ($fizzbuzzDataArray['data'] as $key => $listElement){
             $returnString .= $listElement;
             if($lastArrayKey !== $key){
                 $returnString .= ' ';
