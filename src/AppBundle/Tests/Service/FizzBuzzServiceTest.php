@@ -11,15 +11,32 @@ class FizzBuzzServiceTest extends TestCase
     /** @var FizzBuzzService */
     private $fizzBuzzService;
 
-    private $triggers = [
-        ['replacement' => 'fizzbuzz', 'modValue' => 15],
-        ['replacement' => 'fizz', 'modValue' => 3],
-        ['replacement' => 'buzz', 'modValue' => 5],
-    ];
+    private $defaultTriggers;
 
     public function setUp()
     {
         $this->fizzBuzzService = new FizzBuzzService();
+
+        $this->defaultTriggers = [
+            [
+                'replacement' => 'fizzbuzz',
+                'function' => function($i){
+                    return ($i % 15 == 0 && $i != 0);
+                }
+            ],
+            [
+                'replacement' => 'fizz',
+                'function' => function($i){
+                    return ($i % 3 == 0 && $i != 0);
+                }
+            ],
+            [
+                'replacement' => 'buzz',
+                'function' => function($i){
+                    return ($i % 5 == 0 && $i != 0);
+                }
+            ],
+        ];
     }
 
     /**
@@ -32,7 +49,7 @@ class FizzBuzzServiceTest extends TestCase
      */
     public function testGetFizzBuzzString($rangeStart, $rangeEnd, $expected)
     {
-        $this->assertEquals($expected, $this->fizzBuzzService->getFizzBuzzString($rangeStart, $rangeEnd, $this->triggers));
+        $this->assertEquals($expected, $this->fizzBuzzService->getFizzBuzzString($rangeStart, $rangeEnd, $this->defaultTriggers));
     }
 
     /**
@@ -45,7 +62,7 @@ class FizzBuzzServiceTest extends TestCase
      */
     public function testGetFizzBuzzDataArray($rangeStart, $rangeEnd, $expected)
     {
-        $this->assertEquals($expected, $this->fizzBuzzService->getFizzBuzzDataArray($rangeStart, $rangeEnd, $this->triggers));
+        $this->assertEquals($expected, $this->fizzBuzzService->getFizzBuzzDataArray($rangeStart, $rangeEnd, $this->defaultTriggers));
     }
 
     /**
@@ -54,7 +71,7 @@ class FizzBuzzServiceTest extends TestCase
     public function testGetFizzBuzzDataArrayWithInvalidArgumentTypes()
     {
         $this->expectException('InvalidArgumentException');
-        $this->assertEquals('1 2', $this->fizzBuzzService->getFizzBuzzDataArray(1, 'Test string', $this->triggers));
+        $this->assertEquals('1 2', $this->fizzBuzzService->getFizzBuzzDataArray(1, 'Test string', $this->defaultTriggers));
     }
 
     /**
@@ -63,7 +80,7 @@ class FizzBuzzServiceTest extends TestCase
     public function testGetFizzBuzzDataArrayWithInvalidRange()
     {
         $this->expectException('InvalidArgumentException');
-        $this->assertEquals('1 2', $this->fizzBuzzService->getFizzBuzzDataArray(20, 1, $this->triggers));
+        $this->assertEquals('1 2', $this->fizzBuzzService->getFizzBuzzDataArray(20, 1, $this->defaultTriggers));
     }
 
     /**
