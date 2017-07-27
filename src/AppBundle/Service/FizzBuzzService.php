@@ -7,7 +7,13 @@ use Symfony\Component\OptionsResolver\Exception\InvalidArgumentException;
 class FizzBuzzService
 {
 
+    /** the default triggers to be used for replacements */
     private $defaultTriggers;
+
+    /**
+     * the order to display the counts when reporting
+     * todo make report order configurable as a dependency or optional setter
+     */
     private static $reportOrder = [
         'fizz' => 1,
         'buzz' => 2,
@@ -18,6 +24,7 @@ class FizzBuzzService
 
     public function __construct()
     {
+        // todo triggers are complex enough that they warrant a structured definition so they can be built before passing
         $this->defaultTriggers = [
             [
                 'replacement' => 'lucky',
@@ -42,6 +49,7 @@ class FizzBuzzService
                 'function' => function($i){
                     return ($i % 5 == 0 && $i != 0);
                 }
+
             ],
         ];
     }
@@ -62,42 +70,32 @@ class FizzBuzzService
             $triggers = $this->defaultTriggers;
         }
 
-        // check arguments are valid
-        if(is_int($rangeStart) && is_int($rangeEnd)){
-            if($rangeEnd > $rangeStart){
+        $this->checkRangeIsValid($rangeStart, $rangeEnd);
 
-                $returnArray = ['data' => [], 'counts' => ['integer' => 0]];
+        $returnArray = ['data' => [], 'counts' => ['integer' => 0]];
 
-                // build counts array keys
-                foreach ($triggers as $trigger){
+        for ($i = $rangeStart; $i <= $rangeEnd; $i++) {
+
+            foreach ($triggers as $trigger) {
+                if(!array_key_exists($trigger['replacement'], $returnArray['counts'])){
                     $returnArray['counts'][$trigger['replacement']] = 0;
                 }
-
-                for ($i = $rangeStart; $i <= $rangeEnd; $i++) {
-
-                    foreach ($triggers as $trigger){
-                        if($trigger['function']($i)){
-                            $returnArray['data'][] = $trigger['replacement'];
-                            // count the number of each replacement
-                            $returnArray['counts'][$trigger['replacement']] ++;
-                            continue 2;
-                        }
-                    }
-
-                    // if the loop hasn't continued there have been no trigger matches so default to integer
-                    $returnArray['data'][] = $i;
-                    $returnArray['counts']['integer'] ++;
-
+                if ($trigger['function']($i)) {
+                    $returnArray['data'][] = $trigger['replacement'];
+                    $returnArray['counts'][$trigger['replacement']]++;
+                    // stop foreach execution and continue next for loop
+                    continue 2;
                 }
-                return $returnArray;
-
-            }else{
-                throw new InvalidArgumentException('Range end must be greater than range start');
             }
 
-        }else{
-            throw new InvalidArgumentException('Range values must be integers');
+            // if the loop hasn't continued there have been no trigger matches so default to integer
+            $returnArray['data'][] = $i;
+            $returnArray['counts']['integer']++;
+
         }
+
+        return $returnArray;
+
     }
 
     /**
@@ -137,6 +135,23 @@ class FizzBuzzService
 
         return $returnString;
 
+    }
+
+    /**
+     * Check if the passed range values are valid for fizzbuzzing
+     *
+     * @param $rangeStart
+     * @param $rangeEnd
+     * @return bool
+     */
+    private function checkRangeIsValid($rangeStart, $rangeEnd)
+    {
+        if(!is_int($rangeStart) || !is_int($rangeEnd)) {
+            throw new InvalidArgumentException('Range values must be integers');
+        }
+        if($rangeEnd <= $rangeStart){
+            throw new InvalidArgumentException('Range end must be greater than range start');
+        }
     }
 
 }
