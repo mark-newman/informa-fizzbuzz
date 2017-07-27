@@ -26,7 +26,7 @@ If you do not have composer installed locally let me know and I can commit a pha
 
 ### Tags
 
-There are four tags pushed to the repo: step1, step2, step3 and step3-rafactored which represent the completion of
+There are four tags pushed to the repo: step1, step2, step3 and step3-refactored which represent the completion of
 each step in the test, plus a refactored final version. You can just checkout to each tag to check the code at that 
 time and run the tests. The refactored version isn't a perfect solution, there are still improvements and todos
 in there, it's just a slightly cleaner version than step 3 with a repeating loop removed and some minor refactoring. 
