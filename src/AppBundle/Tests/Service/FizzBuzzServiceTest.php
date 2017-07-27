@@ -91,7 +91,7 @@ class FizzBuzzServiceTest extends TestCase
 
     /**
      * Data provider for getFizzBuzzString test cases. Includes negative numbers as there was no restriction to positive integers in the spec.
-     *
+     * The array values represent the rangeStart, rangeEnd and expected return values
      * @return array
      */
     public function provideGetFizzBuzzStringTestCases()
@@ -107,7 +107,7 @@ class FizzBuzzServiceTest extends TestCase
 
     /**
      * Data provider for getFizzBuzzDataArray test cases. Includes negative numbers as there was no restriction to positive integers in the spec.
-     *
+     * The array values represent the rangeStart, rangeEnd and expected return values
      * @return array
      */
     public function provideGetFizzBuzzDataArrayTestCases()

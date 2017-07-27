@@ -70,31 +70,41 @@ class FizzBuzzService
             $triggers = $this->defaultTriggers;
         }
 
-        $this->checkRangeIsValid($rangeStart, $rangeEnd);
+        // check arguments are valid
+        if(is_int($rangeStart) && is_int($rangeEnd)){
+            if($rangeEnd > $rangeStart){
 
-        $returnArray = ['data' => [], 'counts' => ['integer' => 0]];
+                $returnArray = ['data' => [], 'counts' => ['integer' => 0]];
 
-        for ($i = $rangeStart; $i <= $rangeEnd; $i++) {
+                for ($i = $rangeStart; $i <= $rangeEnd; $i++) {
 
-            foreach ($triggers as $trigger) {
-                if(!array_key_exists($trigger['replacement'], $returnArray['counts'])){
-                    $returnArray['counts'][$trigger['replacement']] = 0;
+                    foreach ($triggers as $trigger) {
+                        if(!array_key_exists($trigger['replacement'], $returnArray['counts'])){
+                            $returnArray['counts'][$trigger['replacement']] = 0;
+                        }
+                        if ($trigger['function']($i)) {
+                            $returnArray['data'][] = $trigger['replacement'];
+                            $returnArray['counts'][$trigger['replacement']]++;
+                            // stop foreach execution and continue next for loop
+                            continue 2;
+                        }
+                    }
+
+                    // if the loop hasn't continued there have been no trigger matches so default to integer
+                    $returnArray['data'][] = $i;
+                    $returnArray['counts']['integer']++;
+
                 }
-                if ($trigger['function']($i)) {
-                    $returnArray['data'][] = $trigger['replacement'];
-                    $returnArray['counts'][$trigger['replacement']]++;
-                    // stop foreach execution and continue next for loop
-                    continue 2;
-                }
+
+                return $returnArray;
+
+            }else{
+                throw new InvalidArgumentException('Range end must be greater than range start');
             }
-
-            // if the loop hasn't continued there have been no trigger matches so default to integer
-            $returnArray['data'][] = $i;
-            $returnArray['counts']['integer']++;
-
+            
+        }else{
+            throw new InvalidArgumentException('Range values must be integers');
         }
-
-        return $returnArray;
 
     }
 
@@ -135,23 +145,6 @@ class FizzBuzzService
 
         return $returnString;
 
-    }
-
-    /**
-     * Check if the passed range values are valid for fizzbuzzing
-     *
-     * @param $rangeStart
-     * @param $rangeEnd
-     * @return bool
-     */
-    private function checkRangeIsValid($rangeStart, $rangeEnd)
-    {
-        if(!is_int($rangeStart) || !is_int($rangeEnd)) {
-            throw new InvalidArgumentException('Range values must be integers');
-        }
-        if($rangeEnd <= $rangeStart){
-            throw new InvalidArgumentException('Range end must be greater than range start');
-        }
     }
 
 }
